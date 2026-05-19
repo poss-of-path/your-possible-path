@@ -279,10 +279,10 @@
 <!-- ══════════════════ SCREEN 1: START ══════════════════ -->
 <div id="screen-start" class="screen active">
   <p class="eyebrow">Cross Path</p>
-  <div class="big-serif">Who will you<br><em>cross paths</em><br>with today?</div>
-  <p class="subtitle">Sebuah pertemuan terjadi bukan karena direncanakan —<br>tapi karena kamu ada di tempat yang tepat, di waktu yang tepat.</p>
+  <div class="big-serif">Who is your<br><em>Possible Paths</em><br>crossing today?</div>
+  <p class="subtitle">Kadang gak disangka-sangka, makan baso aja lu bisa <br>ketemu mamang cuanki langganan pas SMP</p>
   <button class="btn-primary" onclick="go('screen-place')">
-    Mulai &rarr;
+    Start &rarr;
   </button>
 </div>
 
@@ -294,34 +294,34 @@
     <div class="step-dot"></div>
     <div class="step-dot"></div>
   </div>
-  <p class="eyebrow">Langkah 1 dari 3</p>
-  <h2>Kamu mau ke mana hari ini?</h2>
-  <p class="subtitle">Pilih satu tempat yang paling memanggil hatimu.</p>
+  <p class="eyebrow">Path 1 of 3</p>
+  <h2>Where do you want to go today?</h2>
+  <p class="subtitle">Ikutin kata hati jangan kata-kata hari ini</p>
   <div class="choices">
     <button class="choice-btn" onclick="selectPlace('pasar', this)">
       <span class="icon">🛒</span>
       <div>
-        <div class="label">Pasar</div>
-        <div class="desc">Ramai, segar, dan penuh kejutan</div>
+        <div class="label">Pasar Ikan Muara Angka</div>
+        <div class="desc">Chenle pernah beli di sini</div>
       </div>
     </button>
     <button class="choice-btn" onclick="selectPlace('amusement', this)">
       <span class="icon">🎢</span>
       <div>
         <div class="label">Amusement Park</div>
-        <div class="desc">Kesenangan, adrenalin, dan tawa</div>
+        <div class="desc">Cortis kemaren main di mari</div>
       </div>
     </button>
     <button class="choice-btn" onclick="selectPlace('garden', this)">
       <span class="icon">🌿</span>
       <div>
         <div class="label">Taman Kota</div>
-        <div class="desc">Tenang, hijau, dan penuh napas</div>
+        <div class="desc">Mingyu pernah jogging di sini</div>
       </div>
     </button>
   </div>
   <button class="btn-primary" id="btn-place" disabled onclick="go('screen-activity')">
-    Lanjut &rarr;
+    Next &rarr;
   </button>
 </div>
 
@@ -333,9 +333,9 @@
     <div class="step-dot"></div>
     <div class="step-dot"></div>
   </div>
-  <p class="eyebrow">Langkah 2 dari 3</p>
-  <h2 id="activity-title">Di sana, kamu mau ngapain?</h2>
-  <p class="subtitle" id="activity-sub">Pilih satu hal yang ingin kamu lakukan.</p>
+  <p class="eyebrow">Path 2 of 3</p>
+  <h2 id="activity-title">What do you want to do there?</h2>
+  <p class="subtitle" id="activity-sub">Pilih satu yang bermanfaat dikit</p>
   <div class="choices" id="activity-choices"></div>
   <button class="btn-primary" id="btn-activity" disabled onclick="go('screen-vibe')">
     Lanjut &rarr;
@@ -350,34 +350,34 @@
     <div class="step-dot done"></div>
     <div class="step-dot"></div>
   </div>
-  <p class="eyebrow">Langkah 3 dari 3</p>
-  <h2>Di sana, kamu lebih banyak…</h2>
-  <p class="subtitle">Apa yang paling kamu lakukan saat kamu ada di sana?</p>
+  <p class="eyebrow">Path 3 of 3</p>
+  <h2>While you’re there, you mostly…</h2>
+  <p class="subtitle">Di sana lu kemungkinan ngapain cong</p>
   <div class="choices">
     <button class="choice-btn" onclick="selectVibe('bengong', this)">
       <span class="icon">😶</span>
       <div>
         <div class="label">Bengong</div>
-        <div class="desc">Pikiran melayang, mata kosong ke depan</div>
+        <div class="desc">Mikirin tagihan paylater.....</div>
       </div>
     </button>
     <button class="choice-btn" onclick="selectVibe('liatin', this)">
       <span class="icon">👀</span>
       <div>
         <div class="label">Liatin orang</div>
-        <div class="desc">Diam-diam mengamati hiruk pikuk sekitar</div>
+        <div class="desc">Siapa tau ketemuu yang mirip Jihyo</div>
       </div>
     </button>
     <button class="choice-btn" onclick="selectVibe('ngobrol', this)">
       <span class="icon">💬</span>
       <div>
         <div class="label">Ajak orang ngobrol</div>
-        <div class="desc">Kamu yang duluan menyapa</div>
+        <div class="desc">Nyari nasabah affiliate....</div>
       </div>
     </button>
   </div>
   <button class="btn-primary" id="btn-vibe" disabled onclick="showResult()">
-    Lihat siapa yang kamu temui →
+    You possibly meet that day →
   </button>
 </div>
 
@@ -389,7 +389,7 @@
     <div class="step-dot done"></div>
     <div class="step-dot done"></div>
   </div>
-  <p class="eyebrow">Pertemuanmu hari ini</p>
+  <p class="eyebrow">Your possibility meeting today</p>
   <div class="divider"></div>
   <div class="result-card">
     <div class="result-name" id="res-name">—</div>
@@ -398,7 +398,7 @@
   </div>
   <p class="fate-note" id="res-fate">—</p>
   <br><br>
-  <button class="replay-btn" onclick="restart()">↩ Coba lagi</button>
+  <button class="replay-btn" onclick="restart()">↩ Try Again</button>
 </div>
 
 <script>
@@ -411,9 +411,9 @@ const DATA = {
       "Shin Junghwan","Shen Ricky","Carmenita","Sim Jaeyun","Kimi Antonelli"
     ],
     activities: [
-      { id:"seafood", icon:"🐟", label:"Beli seafood", desc:"Ikan segar, udang, cumi — semua ada" },
-      { id:"sayuran", icon:"🥬", label:"Beli sayuran", desc:"Dari bayam sampai wortel warna-warni" },
-      { id:"topokki", icon:"🍢", label:"Makan topokki", desc:"Jajan di lapak makanan Korea" }
+      { id:"seafood", icon:"🐟", label:"Beli seafood", desc:"Kepincut ama plang chenle pernah beli di sini" },
+      { id:"sayuran", icon:"🥬", label:"Beli sayuran", desc:"Beli jamur enokki see you tomorrow" },
+      { id:"topokki", icon:"🍢", label:"Makan topokki", desc:"Jeon jungkook suka makan di sini" }
     ],
     spots: {
       seafood: "lapak seafood",
@@ -429,9 +429,9 @@ const DATA = {
       "Yoo Jimin","Lee Sangwon","Ning Yizhuo","Oh Haewon","Zhang Hao"
     ],
     activities: [
-      { id:"rollercoaster", icon:"🎢", label:"Naik roller coaster", desc:"Adrenalin penuh dari pagi" },
-      { id:"haunted", icon:"👻", label:"Masuk rumah hantu", desc:"Gelap, dingin, dan bikin jantung copot" },
-      { id:"arumjeram", icon:"🚣", label:"Naik arum jeram", desc:"Basah kuyup tapi bahagia" }
+      { id:"rollercoaster", icon:"🎢", label:"Naik roller coaster", desc:"Naik turun hubungan" },
+      { id:"haunted", icon:"👻", label:"Masuk rumah hantu", desc:"Lebih serem dari mantan" },
+      { id:"arumjeram", icon:"🚣", label:"Naik arum jeram", desc:"Ombang ambing hubungan udah lost spark" }
     ],
     spots: {
       rollercoaster: "antrean roller coaster",
@@ -447,9 +447,9 @@ const DATA = {
       "Park Wonbin","Bang Jeemin","Park Jongseong","Asakura Jo","Han Zhen"
     ],
     activities: [
-      { id:"danau", icon:"🏞️", label:"Di pinggir danau", desc:"Duduk melihat air yang tenang beriak" },
-      { id:"pohon", icon:"🌳", label:"Bawah pohon rindang", desc:"Adem, teduh, dan damai" },
-      { id:"foodstore", icon:"☕", label:"Di food store", desc:"Nongkrong santai sambil pesan minuman" }
+      { id:"danau", icon:"🏞️", label:"Di pinggir danau", desc:"Duduk ngeliat bebek claim slot" },
+      { id:"pohon", icon:"🌳", label:"Bawah pohon rindang", desc:"Nyari daun gorilla 4 helai" },
+      { id:"foodstore", icon:"☕", label:"Di food store", desc:"Beli tukuuu hehe skenaaa" }
     ],
     spots: {
       danau: "pinggir danau",
@@ -461,22 +461,22 @@ const DATA = {
 
 const VIBE_TEXT = {
   bengong: {
-    action: "bengong",
+    action: "zoning out",
     scene: (place, spot, name, placeLabel) =>
-      `Kamu lagi <strong>bengong</strong> di <strong>${spot}</strong>, tatapan kosong ke depan — tiba-tiba seseorang lewat tepat di depanmu. Itu <strong>${name}</strong>, yang ternyata juga datang ke <strong>${placeLabel}</strong> hari ini. Kalian sempat bertukar pandang sebentar sebelum dia berlalu.`,
-    fate: (name) => `Entah dia sadar atau tidak — tapi momen itu nyata. ${name} dan kamu, di tempat yang sama, di waktu yang sama.`
+      `You were <strong>zoning out</strong> at the <strong>${spot}</strong>, eyes drifting nowhere in particular — when someone walked right past you. It was <strong>${name}</strong>, who happened to meet the same <strong>${placeLabel}</strong> as you today. Your paths crossed in a single, quiet glance before they moved on.`,
+    fate: (name) => `Out of every possibility, ${name} ended up exactly where you were. Same place. Same moment. That's not nothing.`
   },
   liatin: {
-    action: "liatin orang",
+    action: "people-watching",
     scene: (place, spot, name, placeLabel) =>
-      `Kamu asik <strong>mengamati orang-orang</strong> di <strong>${spot}</strong> — dan matamu berhenti di satu sosok. <strong>${name}</strong>. Dia juga ada di <strong>${placeLabel}</strong> hari ini, dan tanpa disadari, dia sempat melirik ke arahmu juga.`,
-    fate: (name) => `Kamu melihatnya. Mungkin dia juga melihatmu. Sisanya — biarlah jadi rahasia hari ini.`
+      `You were quietly <strong>people-watching</strong> at the <strong>${spot}</strong> — scanning faces, reading the room — when your eyes landed on one person and stayed. <strong>${name}</strong>. They'd come to the same <strong>${placeLabel}</strong> today, and somewhere between the crowd, they glanced your way too.`,
+    fate: (name) => `Of all the people you could have noticed — out of every possibility — it was ${name}. And maybe they noticed you back. Some paths meet without a word.`
   },
   ngobrol: {
-    action: "ajak ngobrol orang",
+    action: "striking up a conversation",
     scene: (place, spot, name, placeLabel) =>
-      `Di <strong>${spot}</strong>, kamu memutuskan untuk <strong>menyapa seseorang</strong> — dan orang itu ternyata <strong>${name}</strong>, yang memang sedang ada di <strong>${placeLabel}</strong> hari ini. Obrolan singkat kalian terasa lebih panjang dari yang seharusnya.`,
-    fate: (name) => `Karena kamu yang duluan menyapa — pertemuan ini terjadi. Selamat, pemberani.`
+      `At the <strong>${spot}</strong>, you decided to <strong>say something</strong> — and the person you met was <strong>${name}</strong>, who was spending the day at the same <strong>${placeLabel}</strong>. What started as a small hello turned into something neither of you planned.`,
+    fate: (name) => `You chose to speak first — and that one possibility became a real moment. Your paths didn't just cross today. You made them cross. Well done.`
   }
 };
 
