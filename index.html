@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cross Path</title>
+<title>Posspath</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -401,14 +401,27 @@
   <button class="replay-btn" onclick="restart()">↩ Try Again</button>
 </div>
 
-<script>
 const DATA = {
   pasar: {
     label: "Pasar",
     people: [
-      "Rakean", "Kwon Ohyul","Kim Ryul","Kim Dohoon","Yu Haram","Koo Jungmo",
-      "Kim Mingyu","Jo Yihyun","Nakakita Yuma","Jang Wonyoung","Anton Lee",
-      "Shin Junghwan","Shen Ricky","Carmenita","Sim Jaeyun","Kimi Antonelli"
+      "Kwon Ohyul",
+      "Kim Ryul",
+      "Kim Dohoon",
+      "Yu Haram",
+      "Koo Jungmo",
+      "Kim Mingyu",
+      "Jo Yihyun",
+      "Nakakita Yuma",
+      "Jang Wonyoung",
+      "Anton Lee",
+      "Shin Junghwan",
+      "Shen Ricky",
+      "Carmenita",
+      "Sung Hanbin",
+      "Hamada Asahi",
+      "Rakean",
+      "Jamal"
     ],
     activities: [
       { id:"seafood", icon:"🐟", label:"Beli seafood", desc:"Kepincut ama plang chenle pernah beli di sini" },
@@ -421,12 +434,26 @@ const DATA = {
       topokki: "lapak topokki"
     }
   },
+
   amusement: {
     label: "Amusement Park",
     people: [
-      "Jamale", "Sung Hanbin","Hamada Asahi","Choi Minje","Naoi Rei","Kim Gyuvin",
-      "Park Sunghoon","Han Taesan","Kang Woojin","Shin Ryujin","Jung Sungchan",
-      "Yoo Jimin","Lee Sangwon","Ning Yizhuo","Oh Haewon","Zhang Hao"
+      "Choi Minje",
+      "Naoi Rei",
+      "Kim Gyuvin",
+      "Park Sunghoon",
+      "Han Taesan",
+      "Kang Woojin",
+      "Shin Ryujin",
+      "Jung Sungchan",
+      "Yoo Jimin",
+      "Lee Sangwon",
+      "Ning Yizhuo",
+      "Tanaka Anna",
+      "Lee Kyungmin",
+      "Kim Woonhak",
+      "Kim Jiwoong",
+      "Nyonge"
     ],
     activities: [
       { id:"rollercoaster", icon:"🎢", label:"Naik roller coaster", desc:"Naik turun hubungan" },
@@ -439,12 +466,26 @@ const DATA = {
       arumjeram: "dermaga arum jeram"
     }
   },
+
   garden: {
     label: "Taman Kota",
     people: [
-      "Nyonge", "Aven", "Tanaka Anna","Lee Kyungmin","Kim Woonhak","Kim Jiwoong","Niky Putra",
-      "Kim Stella","Park Minju","Choi Jiwoo","Mario Caesar","Lee Donghwa",
-      "Park Wonbin","Bang Jeemin","Park Jongseong","Asakura Jo","Han Zhen"
+      "Niky Putra",
+      "Kim Stella",
+      "Park Minju",
+      "Choi Jiwoo",
+      "Mario Caesar",
+      "Lee Donghwa",
+      "Park Wonbin",
+      "Bang Jeemin",
+      "Park Jongseong",
+      "Asakura Jo",
+      "Han Zhen",
+      "Sim Jaeyun",
+      "Kimi Antonelli",
+      "Oh Haewon",
+      "Zhang Hao",
+      "Aven"
     ],
     activities: [
       { id:"danau", icon:"🏞️", label:"Di pinggir danau", desc:"Duduk ngeliat bebek claim slot" },
@@ -458,7 +499,7 @@ const DATA = {
     }
   }
 };
-
+ 
 const VIBE_TEXT = {
   bengong: {
     action: "zoning out",
