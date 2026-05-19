@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --gray-dark: #888;
+    --accent: #111;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    padding: 60px 32px;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── STEP INDICATOR ── */
+  .step-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 48px;
+  }
+  .step-dot {
+    height: 3px;
+    flex: 1;
+    background: #e0e0e0;
+    border-radius: 2px;
+    transition: background 0.4s;
+  }
+  .step-dot.done { background: #111; }
+
+  /* ── LABEL ── */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  /* ── HEADLINE ── */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #111;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 600;
+    line-height: 1.25;
+    color: #111;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  /* ── CHOICES ── */
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .choice-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+  }
+  .choice-btn:hover {
+    border-color: #111;
+    background: #f9f9f9;
+    transform: translateX(4px);
+  }
+  .choice-btn.selected {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+  }
+  .choice-btn .icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+  }
+  .choice-btn .label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .choice-btn .desc {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+  .choice-btn.selected .desc { color: #bbb; }
+
+  /* ── PRIMARY BUTTON ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    align-self: flex-start;
+  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: #111;
+    margin-bottom: 28px;
+  }
+
+  /* ── START SCREEN ── */
+  #screen-start .big-serif {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 11vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: #111;
+    margin-bottom: 24px;
+  }
+  #screen-start .big-serif em {
+    font-style: italic;
+    color: #555;
+  }
+
+  /* ── RESULT SCREEN ── */
+  #screen-result .result-card {
+    border: 1.5px solid #111;
+    border-radius: 4px;
+    padding: 28px 24px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  #screen-result .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: #111;
+  }
+  .result-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 6px;
+  }
+  .result-group {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  .result-scene {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.75;
+    font-family: 'Inter', sans-serif;
+  }
+  .result-scene strong {
+    color: #111;
+    font-weight: 600;
+  }
+
+  .replay-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    color: #111;
+    border: 1.5px solid #111;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .replay-btn:hover { background: #111; color: #fff; }
+
+  .fate-note {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #888;
+    margin-top: 24px;
+    line-height: 1.6;
+  }
+
+  /* ── BACK LINK ── */
+  .back-link {
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    margin-bottom: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .back-link:hover { color: #111; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ SCREEN 1: START ══════════════════ -->
+<div id="screen-start" class="screen active">
+  <p class="eyebrow">Cross Path</p>
+  <div class="big-serif">Who will you<br><em>cross paths</em><br>with today?</div>
+  <p class="subtitle">Sebuah pertemuan terjadi bukan karena direncanakan —<br>tapi karena kamu ada di tempat yang tepat, di waktu yang tepat.</p>
+  <button class="btn-primary" onclick="go('screen-place')">
+    Mulai &rarr;
+  </button>
+</div>
+
+<!-- ══════════════════ SCREEN 2: PILIH TEMPAT ══════════════════ -->
+<div id="screen-place" class="screen">
+  <div class="step-bar">
+    <div class="step-dot done"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+  <p class="eyebrow">Langkah 1 dari 3</p>
+  <h2>Kamu mau ke mana hari ini?</h2>
+  <p class="subtitle">Pilih satu tempat yang paling memanggil hatimu.</p>
+  <div class="choices">
+    <button class="choice-btn" onclick="selectPlace('pasar', this)">
+      <span class="icon">🛒</span>
+      <div>
+        <div class="label">Pasar</div>
+        <div class="desc">Ramai, segar, dan penuh kejutan</div>
+      </div>
+    </button>
+    <button class="choice-btn" onclick="selectPlace('amusement', this)">
+      <span class="icon">🎢</span>
+      <div>
+        <div class="label">Amusement Park</div>
+        <div class="desc">Kesenangan, adrenalin, dan tawa</div>
+      </div>
+    </button>
+    <button class="choice-btn" onclick="selectPlace('garden', this)">
+      <span class="icon">🌿</span>
+      <div>
+        <div class="label">Taman Kota</div>
+        <div class="desc">Tenang, hijau, dan penuh napas</div>
+      </div>
+    </button>
+  </div>
+  <button class="btn-primary" id="btn-place" disabled onclick="go('screen-activity')">
+    Lanjut &rarr;
+  </button>
+</div>
+
+<!-- ══════════════════ SCREEN 3: PILIH AKTIVITAS ══════════════════ -->
+<div id="screen-activity" class="screen">
+  <div class="step-bar">
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+  <p class="eyebrow">Langkah 2 dari 3</p>
+  <h2 id="activity-title">Di sana, kamu mau ngapain?</h2>
+  <p class="subtitle" id="activity-sub">Pilih satu hal yang ingin kamu lakukan.</p>
+  <div class="choices" id="activity-choices"></div>
+  <button class="btn-primary" id="btn-activity" disabled onclick="go('screen-vibe')">
+    Lanjut &rarr;
+  </button>
+</div>
+
+<!-- ══════════════════ SCREEN 4: PILIH VIBE ══════════════════ -->
+<div id="screen-vibe" class="screen">
+  <div class="step-bar">
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+    <div class="step-dot"></div>
+  </div>
+  <p class="eyebrow">Langkah 3 dari 3</p>
+  <h2>Di sana, kamu lebih banyak…</h2>
+  <p class="subtitle">Apa yang paling kamu lakukan saat kamu ada di sana?</p>
+  <div class="choices">
+    <button class="choice-btn" onclick="selectVibe('bengong', this)">
+      <span class="icon">😶</span>
+      <div>
+        <div class="label">Bengong</div>
+        <div class="desc">Pikiran melayang, mata kosong ke depan</div>
+      </div>
+    </button>
+    <button class="choice-btn" onclick="selectVibe('liatin', this)">
+      <span class="icon">👀</span>
+      <div>
+        <div class="label">Liatin orang</div>
+        <div class="desc">Diam-diam mengamati hiruk pikuk sekitar</div>
+      </div>
+    </button>
+    <button class="choice-btn" onclick="selectVibe('ngobrol', this)">
+      <span class="icon">💬</span>
+      <div>
+        <div class="label">Ajak orang ngobrol</div>
+        <div class="desc">Kamu yang duluan menyapa</div>
+      </div>
+    </button>
+  </div>
+  <button class="btn-primary" id="btn-vibe" disabled onclick="showResult()">
+    Lihat siapa yang kamu temui →
+  </button>
+</div>
+
+<!-- ══════════════════ SCREEN RESULT ══════════════════ -->
+<div id="screen-result" class="screen">
+  <div class="step-bar">
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+    <div class="step-dot done"></div>
+  </div>
+  <p class="eyebrow">Pertemuanmu hari ini</p>
+  <div class="divider"></div>
+  <div class="result-card">
+    <div class="result-name" id="res-name">—</div>
+    <div class="result-group" id="res-group">—</div>
+    <div class="result-scene" id="res-scene">—</div>
+  </div>
+  <p class="fate-note" id="res-fate">—</p>
+  <br><br>
+  <button class="replay-btn" onclick="restart()">↩ Coba lagi</button>
+</div>
+
+<script>
+const DATA = {
+  pasar: {
+    label: "Pasar",
+    people: [
+      "Kwon Ohyul","Kim Ryul","Kim Dohoon","Yu Haram","Koo Jungmo",
+      "Kim Mingyu","Jo Yihyun","Nakakita Yuma","Jang Wonyoung","Anton Lee",
+      "Shin Junghwan","Shen Ricky","Carmenita","Sim Jaeyun","Kimi Antonelli"
+    ],
+    activities: [
+      { id:"seafood", icon:"🐟", label:"Beli seafood", desc:"Ikan segar, udang, cumi — semua ada" },
+      { id:"sayuran", icon:"🥬", label:"Beli sayuran", desc:"Dari bayam sampai wortel warna-warni" },
+      { id:"topokki", icon:"🍢", label:"Makan topokki", desc:"Jajan di lapak makanan Korea" }
+    ],
+    spots: {
+      seafood: "lapak seafood",
+      sayuran: "deretan sayuran",
+      topokki: "lapak topokki"
+    }
+  },
+  amusement: {
+    label: "Amusement Park",
+    people: [
+      "Sung Hanbin","Hamada Asahi","Choi Minje","Naoi Rei","Kim Gyuvin",
+      "Park Sunghoon","Han Taesan","Kang Woojin","Shin Ryujin","Jung Sungchan",
+      "Yoo Jimin","Lee Sangwon","Ning Yizhuo","Oh Haewon","Zhang Hao"
+    ],
+    activities: [
+      { id:"rollercoaster", icon:"🎢", label:"Naik roller coaster", desc:"Adrenalin penuh dari pagi" },
+      { id:"haunted", icon:"👻", label:"Masuk rumah hantu", desc:"Gelap, dingin, dan bikin jantung copot" },
+      { id:"arumjeram", icon:"🚣", label:"Naik arum jeram", desc:"Basah kuyup tapi bahagia" }
+    ],
+    spots: {
+      rollercoaster: "antrean roller coaster",
+      haunted: "pintu masuk rumah hantu",
+      arumjeram: "dermaga arum jeram"
+    }
+  },
+  garden: {
+    label: "Taman Kota",
+    people: [
+      "Tanaka Anna","Lee Kyungmin","Kim Woonhak","Kim Jiwoong","Niky Putra",
+      "Kim Stella","Park Minju","Choi Jiwoo","Mario Caesar","Lee Donghwa",
+      "Park Wonbin","Bang Jeemin","Park Jongseong","Asakura Jo","Han Zhen"
+    ],
+    activities: [
+      { id:"danau", icon:"🏞️", label:"Di pinggir danau", desc:"Duduk melihat air yang tenang beriak" },
+      { id:"pohon", icon:"🌳", label:"Bawah pohon rindang", desc:"Adem, teduh, dan damai" },
+      { id:"foodstore", icon:"☕", label:"Di food store", desc:"Nongkrong santai sambil pesan minuman" }
+    ],
+    spots: {
+      danau: "pinggir danau",
+      pohon: "bawah pohon rindang",
+      foodstore: "food store taman"
+    }
+  }
+};
+
+const VIBE_TEXT = {
+  bengong: {
+    action: "bengong",
+    scene: (place, spot, name, placeLabel) =>
+      `Kamu lagi <strong>bengong</strong> di <strong>${spot}</strong>, tatapan kosong ke depan — tiba-tiba seseorang lewat tepat di depanmu. Itu <strong>${name}</strong>, yang ternyata juga datang ke <strong>${placeLabel}</strong> hari ini. Kalian sempat bertukar pandang sebentar sebelum dia berlalu.`,
+    fate: (name) => `Entah dia sadar atau tidak — tapi momen itu nyata. ${name} dan kamu, di tempat yang sama, di waktu yang sama.`
+  },
+  liatin: {
+    action: "liatin orang",
+    scene: (place, spot, name, placeLabel) =>
+      `Kamu asik <strong>mengamati orang-orang</strong> di <strong>${spot}</strong> — dan matamu berhenti di satu sosok. <strong>${name}</strong>. Dia juga ada di <strong>${placeLabel}</strong> hari ini, dan tanpa disadari, dia sempat melirik ke arahmu juga.`,
+    fate: (name) => `Kamu melihatnya. Mungkin dia juga melihatmu. Sisanya — biarlah jadi rahasia hari ini.`
+  },
+  ngobrol: {
+    action: "ajak ngobrol orang",
+    scene: (place, spot, name, placeLabel) =>
+      `Di <strong>${spot}</strong>, kamu memutuskan untuk <strong>menyapa seseorang</strong> — dan orang itu ternyata <strong>${name}</strong>, yang memang sedang ada di <strong>${placeLabel}</strong> hari ini. Obrolan singkat kalian terasa lebih panjang dari yang seharusnya.`,
+    fate: (name) => `Karena kamu yang duluan menyapa — pertemuan ini terjadi. Selamat, pemberani.`
+  }
+};
+
+let state = { place: null, activity: null, vibe: null };
+
+function go(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const next = document.getElementById(screenId);
+  next.classList.add('active');
+
+  if (screenId === 'screen-activity') buildActivityChoices();
+}
+
+function selectPlace(place, el) {
+  state.place = place;
+  state.activity = null;
+  document.querySelectorAll('#screen-place .choice-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('btn-place').disabled = false;
+}
+
+function buildActivityChoices() {
+  const d = DATA[state.place];
+  document.getElementById('activity-title').textContent = `Di ${d.label}, kamu mau ngapain?`;
+  document.getElementById('activity-sub').textContent = `Pilih satu aktivitas yang paling kamu bayangkan.`;
+  const container = document.getElementById('activity-choices');
+  container.innerHTML = '';
+  d.activities.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="icon">${a.icon}</span><div><div class="label">${a.label}</div><div class="desc">${a.desc}</div></div>`;
+    btn.onclick = () => {
+      state.activity = a.id;
+      container.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('btn-activity').disabled = false;
+    };
+    container.appendChild(btn);
+  });
+  document.getElementById('btn-activity').disabled = true;
+}
+
+function selectVibe(vibe, el) {
+  state.vibe = vibe;
+  document.querySelectorAll('#screen-vibe .choice-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('btn-vibe').disabled = false;
+}
+
+function showResult() {
+  const placeData = DATA[state.place];
+  const people = placeData.people;
+  const randomPerson = people[Math.floor(Math.random() * people.length)];
+  const spot = placeData.spots[state.activity];
+  const vibeData = VIBE_TEXT[state.vibe];
+  const placeLabel = placeData.label;
+
+  // group label
+  const groupMap = { pasar: "Pasar", amusement: "Amusement Park", garden: "Taman Kota" };
+
+  document.getElementById('res-name').textContent = randomPerson;
+  document.getElementById('res-group').textContent = `ditemui di ${placeLabel}`;
+  document.getElementById('res-scene').innerHTML = vibeData.scene(state.place, spot, randomPerson, placeLabel);
+  document.getElementById('res-fate').textContent = vibeData.fate(randomPerson);
+
+  go('screen-result');
+}
+
+function restart() {
+  state = { place: null, activity: null, vibe: null };
+  document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('btn-place').disabled = true;
+  document.getElementById('btn-vibe').disabled = true;
+  go('screen-start');
+}
+</script>
+</body>
+</html>
