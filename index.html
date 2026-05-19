@@ -280,7 +280,7 @@
 <div id="screen-start" class="screen active">
   <p class="eyebrow">Cross Path</p>
   <div class="big-serif">Who is your<br><em>Possible Paths</em><br>crossing today?</div>
-  <p class="subtitle">Kadang gak disangka-sangka, makan baso aja lu bisa <br>ketemu mamang cuanki langganan pas SMP</p>
+  <p class="subtitle">Kadang gak disangka-sangka, makan baso aja lu bisa ketemu mamang cuanki langganan pas SMP</p>
   <button class="btn-primary" onclick="go('screen-place')">
     Start &rarr;
   </button>
@@ -352,7 +352,7 @@
   </div>
   <p class="eyebrow">Path 3 of 3</p>
   <h2>While you’re there, you mostly…</h2>
-  <p class="subtitle">Di sana lu kemungkinan ngapain cong</p>
+  <p class="subtitle">Terus pas lagi ke situ lu sambil apa</p>
   <div class="choices">
     <button class="choice-btn" onclick="selectVibe('bengong', this)">
       <span class="icon">😶</span>
@@ -500,8 +500,8 @@ function selectPlace(place, el) {
 
 function buildActivityChoices() {
   const d = DATA[state.place];
-  document.getElementById('activity-title').textContent = `Di ${d.label}, kamu mau ngapain?`;
-  document.getElementById('activity-sub').textContent = `Pilih satu aktivitas yang paling kamu bayangkan.`;
+  document.getElementById('activity-title').textContent = `At ${d.label}, Where did you go?`;
+  document.getElementById('activity-sub').textContent = `Bayangin tempat yang mau lu tuju di sana`;
   const container = document.getElementById('activity-choices');
   container.innerHTML = '';
   d.activities.forEach(a => {
